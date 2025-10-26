@@ -68,10 +68,10 @@ func init() {
 			t.SetStyle(table.StyleRounded)
 			t.Style().Options.SeparateRows = true
 			t.AppendHeader(table.Row{"#", "URL", "Added At"})
-			for i, item := range items {
+			for _, item := range items {
 				date, _ := time.Parse(time.RFC3339, item.AddedAt)
 				localDate := date.Local()
-				t.AppendRow(table.Row{i + 1, item.Url, localDate.Format("2006-01-02 / 15:04")})
+				t.AppendRow(table.Row{item.Id, item.Url, localDate.Format("2006-01-02 / 15:04")})
 			}
 			t.Render()
 		},

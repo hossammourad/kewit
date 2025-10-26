@@ -32,6 +32,7 @@ func Init() error {
 }
 
 type item struct {
+	Id      int
 	Url     string
 	AddedAt string
 }
@@ -48,7 +49,7 @@ func AddItem(url string) error {
 }
 
 func ListItems() ([]item, error) {
-	rows, err := conn.Query(`SELECT url, added_at FROM items`)
+	rows, err := conn.Query(`SELECT id, url, added_at FROM items`)
 	if err != nil {
 		return nil, err
 	}
@@ -56,12 +57,13 @@ func ListItems() ([]item, error) {
 
 	var items []item
 	for rows.Next() {
+		var id int
 		var url string
 		var addedAt string
-		if err := rows.Scan(&url, &addedAt); err != nil {
+		if err := rows.Scan(&id, &url, &addedAt); err != nil {
 			return nil, err
 		}
-		items = append(items, item{Url: url, AddedAt: addedAt})
+		items = append(items, item{Url: url, AddedAt: addedAt, Id: id})
 	}
 
 	if err := rows.Err(); err != nil {
