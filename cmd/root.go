@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/hossammourad/kewit/db"
+	"github.com/hossammourad/kewit/utils"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
@@ -85,4 +86,31 @@ func init() {
 		},
 	}
 	rootCmd.AddCommand(deleteCmd)
+
+	openCmd := &cobra.Command{
+		Use:   "open [id]",
+		Short: "Open a saved URL in your default browser by its ID",
+		Args:  cobra.ExactArgs(1),
+		Run: func(cmd *cobra.Command, args []string) {
+			idStr := args[0]
+			var id int
+			_, err := fmt.Sscanf(idStr, "%d", &id)
+			if err != nil {
+				fmt.Printf("Invalid ID: %v\n", err)
+				return
+			}
+			url, err := db.GetItemById(id)
+			if err != nil {
+				fmt.Printf("Error retrieving item: %v\n", err)
+				return
+			}
+			err = utils.OpenBrowser(url)
+			if err != nil {
+				fmt.Printf("Error opening URL in browser: %v\n", err)
+				return
+			}
+			fmt.Printf("Opened URL: %s\n", url)
+		},
+	}
+	rootCmd.AddCommand(openCmd)
 }
