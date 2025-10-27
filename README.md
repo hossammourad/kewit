@@ -1,3 +1,6 @@
+## Kewit — pronounced “queue-it”
+A read-it-later app that runs on your terminal
+
 ## Installation
 
 1. [Go](https://go.dev/) should be installed first
@@ -5,8 +8,6 @@
 
 ## Documentation
 ```
-A read-it-later app that runs on your terminal
-
 Usage:
   kewit [command]
 

@@ -13,9 +13,7 @@ var CopyCmd = &cobra.Command{
 	Short: "Copy a saved URL to your clipboard by its ID",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		idStr := args[0]
-		var id int
-		_, err := fmt.Sscanf(idStr, "%d", &id)
+		id, err := helpers.InputToInt(args[0])
 		if err != nil {
 			fmt.Printf("Invalid ID: %v\n", err)
 			return
