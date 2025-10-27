@@ -27,9 +27,9 @@ var OpenCmd = &cobra.Command{
 		}
 		err = helpers.OpenBrowser(url)
 		if err != nil {
-			fmt.Printf("Error opening URL in browser: %v\n", err)
+			fmt.Printf("Error opening URL in your default browser: %v\n", err)
 			return
 		}
-		fmt.Printf("Opened URL: %s\n", url)
+		fmt.Printf("'%s' is opened in your default browser\n", url)
 	},
 }
