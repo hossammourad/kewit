@@ -3,6 +3,7 @@ module github.com/hossammourad/kewit
 go 1.25.0
 
 require (
+	github.com/atotto/clipboard v0.1.4
 	github.com/jedib0t/go-pretty/v6 v6.6.8
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/spf13/cobra v1.10.1

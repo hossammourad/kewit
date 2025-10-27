@@ -13,7 +13,7 @@ Usage:
 Available Commands:
   add           Add a URL to your read-later list
   archive       Archive a URL by its ID
-  completion    Generate the autocompletion script for the specified shell
+  copy          Copy a saved URL to your clipboard by its ID
   delete        Delete a URL from your read-later list by its ID
   help          Help about any command
   list          List saved URLs in your list that are not archived
