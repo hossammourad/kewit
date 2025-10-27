@@ -29,7 +29,8 @@ func Init() error {
 	if _, err = c.Exec(`CREATE TABLE IF NOT EXISTS items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         url TEXT NOT NULL UNIQUE,
-        added_at TEXT NOT NULL
+        added_at TEXT NOT NULL,
+        archived_at TEXT DEFAULT NULL
     )`); err != nil {
 		return err
 	}
@@ -38,18 +39,28 @@ func Init() error {
 }
 
 func AddItem(url string) error {
-	_, err := conn.Exec(`INSERT INTO items (url, added_at) VALUES (?, ?)`,
-		url, time.Now().UTC().Format(time.RFC3339))
-	if err != nil {
-		if strings.Contains(err.Error(), "UNIQUE") {
-			return errors.New("URL already added")
-		}
+	now := time.Now().UTC().Format(time.RFC3339)
+	_, err := conn.Exec(`INSERT INTO items (url, added_at) VALUES (?, ?)`, url, now)
+	if err == nil {
+		return nil
 	}
-	return nil
+	if strings.Contains(err.Error(), "UNIQUE") {
+		var archivedAt sql.NullString
+		err := conn.QueryRow(`SELECT archived_at FROM items WHERE url = ?`, url).Scan(&archivedAt)
+		if err != nil {
+			return err
+		}
+		if archivedAt.Valid {
+			_, err := conn.Exec(`UPDATE items SET archived_at = NULL, added_at = ? WHERE url = ?`, now, url)
+			return err
+		}
+		return errors.New("URL already added")
+	}
+	return err
 }
 
 func ListItems() ([]item, error) {
-	rows, err := conn.Query(`SELECT id, url, added_at FROM items`)
+	rows, err := conn.Query(`SELECT id, url, added_at FROM items WHERE archived_at IS NULL ORDER BY added_at ASC`)
 	if err != nil {
 		return nil, err
 	}
@@ -98,4 +109,20 @@ func GetItemById(id int) (string, error) {
 		return "", err
 	}
 	return url, nil
+}
+
+func ArchiveItemById(id int) error {
+	res, err := conn.Exec(`UPDATE items SET archived_at = ? WHERE id = ?`,
+		time.Now().UTC().Format(time.RFC3339), id)
+	if err != nil {
+		return err
+	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rowsAffected == 0 {
+		return errors.New("no item found with the given id")
+	}
+	return nil
 }
