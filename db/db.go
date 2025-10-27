@@ -13,6 +13,12 @@ import (
 
 var conn *sql.DB
 
+type item struct {
+	Id      int
+	Url     string
+	AddedAt string
+}
+
 func Init() error {
 	home, _ := os.UserHomeDir()
 	path := filepath.Join(home, ".kewit.db")
@@ -29,12 +35,6 @@ func Init() error {
 	}
 	conn = c
 	return nil
-}
-
-type item struct {
-	Id      int
-	Url     string
-	AddedAt string
 }
 
 func AddItem(url string) error {
