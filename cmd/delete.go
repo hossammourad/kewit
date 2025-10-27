@@ -19,10 +19,26 @@ var DeleteCmd = &cobra.Command{
 			fmt.Printf("Invalid ID: %v\n", err)
 			return
 		}
+		item, err := db.GetItemById(id)
+		if err != nil {
+			fmt.Printf("Error retrieving item: %v\n", err)
+			return
+		}
+		if item == "" {
+			fmt.Printf("No item found with ID %d\n", id)
+			return
+		}
+		var confirmation string
+		fmt.Printf("Are you sure you want to delete the URL '%s' (ID: %d)? (y/N): ", item, id)
+		fmt.Scanln(&confirmation)
+		if confirmation != "y" && confirmation != "Y" {
+			fmt.Println("Deletion cancelled.")
+			return
+		}
 		if err := db.DeleteItemById(id); err != nil {
 			fmt.Printf("Error deleting item: %v\n", err)
 			return
 		}
-		fmt.Printf("Deleted")
+		fmt.Printf("Deleted item with URL: %s\n", item)
 	},
 }
