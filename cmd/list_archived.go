@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/hossammourad/kewit/db"
 	"github.com/hossammourad/kewit/helpers"
@@ -23,15 +22,11 @@ var ListArchivedCmd = &cobra.Command{
 		helpers.ConfigureTable(t)
 		t.AppendHeader(table.Row{"ID", "URL", "Added At", "Archived At"})
 		for _, item := range items {
-			addedAtDate, _ := time.Parse(time.RFC3339, item.AddedAt)
-			localizedAddedAtDate := addedAtDate.Local()
-			archivedAtDate, _ := time.Parse(time.RFC3339, item.ArchivedAt)
-			localizedArchivedAtDate := archivedAtDate.Local()
 			t.AppendRow(table.Row{
 				item.Id,
 				item.Url,
-				localizedAddedAtDate.Format("2006-01-02 / 15:04"),
-				localizedArchivedAtDate.Format("2006-01-02 / 15:04"),
+				helpers.LocalizeDate(item.AddedAt),
+				helpers.LocalizeDate(item.ArchivedAt),
 			})
 		}
 		t.Render()
