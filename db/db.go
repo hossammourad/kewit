@@ -14,9 +14,10 @@ import (
 var conn *sql.DB
 
 type item struct {
-	Id      int
-	Url     string
-	AddedAt string
+	Id         int
+	Url        string
+	AddedAt    string
+	ArchivedAt string
 }
 
 func Init() error {
@@ -75,6 +76,32 @@ func ListItems() ([]item, error) {
 			return nil, err
 		}
 		items = append(items, item{Url: url, AddedAt: addedAt, Id: id})
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return items, nil
+}
+
+func ListArchivedItems() ([]item, error) {
+	rows, err := conn.Query(`SELECT id, url, added_at, archived_at FROM items WHERE archived_at IS NOT NULL ORDER BY archived_at ASC`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var items []item
+	for rows.Next() {
+		var id int
+		var url string
+		var addedAt string
+		var archivedAt string
+		if err := rows.Scan(&id, &url, &addedAt, &archivedAt); err != nil {
+			return nil, err
+		}
+		items = append(items, item{Url: url, AddedAt: addedAt, ArchivedAt: archivedAt, Id: id})
 	}
 
 	if err := rows.Err(); err != nil {

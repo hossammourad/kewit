@@ -23,6 +23,7 @@ func Execute() {
 func init() {
 	rootCmd.AddCommand(AddCmd)
 	rootCmd.AddCommand(ListCmd)
+	rootCmd.AddCommand(ListArchivedCmd)
 	rootCmd.AddCommand(DeleteCmd)
 	rootCmd.AddCommand(OpenCmd)
 	rootCmd.AddCommand(ArchiveCmd)
