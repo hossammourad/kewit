@@ -1,4 +1,6 @@
-## Kewit — pronounced “queue-it”
+![Work in Progress](https://img.shields.io/badge/status-work_in_progress-orange)
+
+## Kewit — pronounced “queue it”
 A read-it-later app that runs on your terminal
 
 ## Installation
@@ -24,3 +26,18 @@ Available Commands:
 Flags:
   -h, --help   help for kewit
 ```
+
+
+## Command Examples
+
+```
+kewit list
+kewit list-archived
+kewit delete $ID
+kewit archive $ID
+kewit copy $ID
+kewit open $ID
+
+```
+
+![Screenshot](assets/screenshot.png)
