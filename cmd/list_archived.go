@@ -2,10 +2,10 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/hossammourad/kewit/db"
+	"github.com/hossammourad/kewit/helpers"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/spf13/cobra"
 )
@@ -20,9 +20,7 @@ var ListArchivedCmd = &cobra.Command{
 			return
 		}
 		t := table.NewWriter()
-		t.SetOutputMirror(os.Stdout)
-		t.SetStyle(table.StyleRounded)
-		t.Style().Options.SeparateRows = true
+		helpers.ConfigureTable(t)
 		t.AppendHeader(table.Row{"ID", "URL", "Added At", "Archived At"})
 		for _, item := range items {
 			addedAtDate, _ := time.Parse(time.RFC3339, item.AddedAt)
