@@ -18,11 +18,13 @@ var CopyCmd = &cobra.Command{
 			fmt.Printf("Invalid ID: %v\n", err)
 			return
 		}
+
 		url, err := db.GetItemById(id)
 		if err != nil {
 			fmt.Printf("Error retrieving item: %v\n", err)
 			return
 		}
+
 		err = helpers.CopyToClipboard(url)
 		if err != nil {
 			fmt.Printf("Error copying URL to clipboard: %v\n", err)

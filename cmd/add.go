@@ -18,6 +18,7 @@ var AddCmd = &cobra.Command{
 			fmt.Printf("Invalid URL: %s\n", url)
 			return
 		}
+
 		if err := db.AddItem(url); err != nil {
 			fmt.Printf("Error adding URL: %v\n", err)
 			return

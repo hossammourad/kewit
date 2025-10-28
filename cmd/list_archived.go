@@ -13,11 +13,16 @@ var ListArchivedCmd = &cobra.Command{
 	Use:   "list-archived",
 	Short: "List archived URLs in your list",
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) > 0 {
+			fmt.Println("Warning: listing shouldn't be executed with any arguments")
+		}
+
 		items, err := db.ListArchivedItems()
 		if err != nil {
 			fmt.Printf("Error listing archived items: %v\n", err)
 			return
 		}
+
 		t := table.NewWriter()
 		helpers.ConfigureTable(t)
 		t.AppendHeader(table.Row{"ID", "URL", "Added At", "Archived At"})

@@ -18,11 +18,13 @@ var OpenCmd = &cobra.Command{
 			fmt.Printf("Invalid ID: %v\n", err)
 			return
 		}
+
 		url, err := db.GetItemById(id)
 		if err != nil {
 			fmt.Printf("Error retrieving item: %v\n", err)
 			return
 		}
+
 		err = helpers.OpenBrowser(url)
 		if err != nil {
 			fmt.Printf("Error opening URL in your default browser: %v\n", err)

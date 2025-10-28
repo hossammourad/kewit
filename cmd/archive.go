@@ -18,6 +18,7 @@ var ArchiveCmd = &cobra.Command{
 			fmt.Printf("Invalid ID: %v\n", err)
 			return
 		}
+
 		if err := db.ArchiveItemById(id); err != nil {
 			fmt.Printf("Error archiving item: %v\n", err)
 			return
