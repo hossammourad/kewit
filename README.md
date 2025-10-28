@@ -22,6 +22,7 @@ Available Commands:
   list          List saved URLs in your list that are not archived
   list-archived List archived URLs in your list
   open          Open a saved URL in your default browser by its ID
+  export-json   Export your list as JSON
 
 Flags:
   -h, --help   help for kewit
@@ -37,5 +38,5 @@ kewit delete $ID
 kewit archive $ID
 kewit copy $ID
 kewit open $ID
-
+kewit export-json
 ```

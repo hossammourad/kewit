@@ -28,4 +28,5 @@ func init() {
 	rootCmd.AddCommand(OpenCmd)
 	rootCmd.AddCommand(ArchiveCmd)
 	rootCmd.AddCommand(CopyCmd)
+	rootCmd.AddCommand(ExportJsonCmd)
 }
