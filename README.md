@@ -39,5 +39,3 @@ kewit copy $ID
 kewit open $ID
 
 ```
-
-![Screenshot](assets/screenshot.png)
